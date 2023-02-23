@@ -1,8 +1,11 @@
-﻿namespace Evidence_pojisteni
+﻿using System.Linq.Expressions;
+using System.Text.RegularExpressions;
+
+namespace Evidence_pojisteni
 {
     internal class Seznam
     {
-        private Databaze databaze = new Databaze();
+        private Databaze databaze = new Databaze("data.csv");
 
         private static string ZjistiJmeno()
         {
@@ -27,37 +30,58 @@
         private static int ZjistiVek()
         {
             Console.WriteLine("Zadejte Věk:");
-            string vek;
-            while (string.IsNullOrEmpty(vek = Console.ReadLine()))
+            string strVek;
+            int intVek;
+            while (string.IsNullOrEmpty(strVek = Console.ReadLine()))
             {
                 Console.WriteLine("Zajte text znovu");
             }
-            return int.Parse(vek);
+            if (int.TryParse(strVek,out intVek) && (strVek.Length <= 3))
+            {
+                return intVek;
+            }
+            else
+            {
+                Console.WriteLine("Špatný formát věku. Zkuste to znovu:");
+                return ZjistiVek();
+            }
+
+
         }
         private static string ZjistiTel()
         {
-            Console.WriteLine("Zadejte telefon:");
+            Regex regex = new Regex(@"^\+420\s[1-9][0-9]{2}\s[0-9]{3}\s[0-9]{3}$");
+            Console.WriteLine("Zadejte telefon v formátru +420 123 456 789:");
             string tel;
             while (string.IsNullOrEmpty(tel = Console.ReadLine()))
             {
                 Console.WriteLine("Zajte text znovu");
             }
+            if (!regex.IsMatch(tel))
+            {
+                Console.WriteLine("Telefonní číslo není platné.");
+                return ZjistiTel();
+            }
             return tel;
         }
-        public void VypisZaznamy()
+        private static void ZjistiZaznam(List<Pojistenec> list)
         {
-            List<Pojistenec> zaznamy = databaze.VypisZaznamy();
-            if (zaznamy.Count() > 0)
+            if (list.Count() > 0)
             {
-                Console.Write("Jmeno | Primení | Vek | Telefon");
-                Console.WriteLine();
-                Console.WriteLine();
-                foreach (Pojistenec p in zaznamy)
-                    Console.WriteLine(p);
+                Console.WriteLine("Jmeno\tPrimení\t\tVěk\tTelefon");
+                Console.WriteLine("-----------------------------------------------\n");
+                foreach (Pojistenec p in list)
+                    Console.WriteLine(p + "\n");
             }
             else
                 Console.WriteLine("Nebyly nalezeny žádné záznamy.");
             Console.ReadLine();
+        }
+        public void VypisZaznamy()
+        {
+            List<Pojistenec> zaznamy = databaze.VypisZaznamy();
+            ZjistiZaznam(zaznamy);
+
 
         }
         public void HledejZaznamy()
@@ -65,17 +89,8 @@
             string jmeno = ZjistiJmeno();
             string prmeni = ZjistiPrimeni();
             List<Pojistenec> zaznamy = databaze.NajdiZaznamy(jmeno, prmeni);
-            if (zaznamy.Count() > 0)
-            {
-                Console.Write("Jmeno | Primení | Vek | Telefon");
-                Console.WriteLine();
-                Console.WriteLine();
-                foreach (Pojistenec p in zaznamy)
-                    Console.WriteLine(p);
-            }
-            else
-                Console.WriteLine("Nebyly nalezeny žádné záznamy.");
-            Console.ReadLine();
+            ZjistiZaznam(zaznamy);
+
 
         }
         public void PridejZaznam()
@@ -102,6 +117,14 @@
             Console.WriteLine("3 - Vyhledat pojisteneho");
             Console.WriteLine("4 - Konec");
             Console.WriteLine();
+        }
+        public void Uloz()
+        {
+            databaze.Uloz();
+        }
+        public void nacti()
+        {
+            databaze.Nacti();
         }
     }
 }

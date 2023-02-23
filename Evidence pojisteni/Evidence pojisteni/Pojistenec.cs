@@ -35,7 +35,7 @@ namespace Evidence_pojisteni
 
         public override string ToString()
         {
-            return Jmeno + " " + Primeni+ " " + Vek + " " + Tel;
+            return Jmeno + "\t" + Primeni+ "\t\t" + Vek + "\t" + Tel;
         }
 
     }

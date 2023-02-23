@@ -5,7 +5,7 @@ internal class Program
     private static void Main(string[] args)
     {
         Seznam seznam = new Seznam();
-        
+        seznam.nacti();
         char volba = '0';
         while (volba != '4')
         {
@@ -24,6 +24,7 @@ internal class Program
                     break;
                 case '4':
                     Console.WriteLine("Libovolnou klávesou ukončíte program...");
+                    seznam.Uloz();
                     break;
                 default:
                     Console.WriteLine("Neplatná volba, stiskněte libovolnou klávesu a opakujte volbu.");
