@@ -1,5 +1,0 @@
-W:\Programování\Závěrečná práce\Evidence pojisteni.exe
-W:\Programování\Závěrečná práce\Evidence pojisteni.dll
-W:\Programování\Závěrečná práce\Evidence pojisteni.deps.json
-W:\Programování\Závěrečná práce\Evidence pojisteni.runtimeconfig.json
-W:\Programování\Závěrečná práce\Evidence pojisteni.pdb
