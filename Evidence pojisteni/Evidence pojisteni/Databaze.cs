@@ -33,7 +33,7 @@
             List<Pojistenec> nalezene = new List<Pojistenec>();
             foreach (Pojistenec p in Zaznamy)
             {
-                if ((jmeno.Contains(p.Jmeno)) && (primeni.Contains(p.Primeni)))
+                if ((p.Jmeno.Contains(jmeno)) && (p.Primeni.Contains(primeni)))
                 {
                     nalezene.Add(p);
                 }
